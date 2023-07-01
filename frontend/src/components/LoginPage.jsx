@@ -5,24 +5,43 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useRef, useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { loginSchema } from '../schemas';
 import loginImg from '../assets/login.jpg';
+import routes from '../routes';
 
 const LoginPage = () => {
   const { t } = useTranslation();
 
   const [authFailed, setAuthFailed] = useState(false);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
-      setAuthFailed(true);
-      formik.setSubmitting(false);
+    onSubmit: async (values) => {
+      setAuthFailed(false);
+
+      try {
+        const res = await axios.post(routes.loginPath(), values);
+        localStorage.setItem('user', JSON.stringify(res.data));
+        const { from } = location.state || { from: { pathname: '/' } };
+        navigate(from);
+      } catch (err) {
+        formik.setSubmitting(false);
+        if (err.isAxiosError && err.response.status === 401) {
+          setAuthFailed(true);
+          formik.setSubmitting(false);
+          return;
+        }
+        throw err;
+      }
     },
     validationSchema: loginSchema,
   });
@@ -53,7 +72,7 @@ const LoginPage = () => {
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
                       name="username"
-                      autocomplete="username"
+                      autoComplete="username"
                       required
                       id="username"
                       placeholder={t('username')}
@@ -67,7 +86,7 @@ const LoginPage = () => {
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
                       name="password"
-                      autocomplete="current-password"
+                      autoComplete="current-password"
                       required
                       placeholder={t('password')}
                       type="password"
@@ -77,7 +96,7 @@ const LoginPage = () => {
                       isInvalid={authFailed || formik.errors.password}
                     />
                     <Form.Label htmlFor="password">{t('password')}</Form.Label>
-                    <Form.Control.Feedback type="invalid">{t('authFailed')}</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">{authFailed && t('authFailed')}</Form.Control.Feedback>
                   </Form.Group>
                   <Button
                     type="submit"
