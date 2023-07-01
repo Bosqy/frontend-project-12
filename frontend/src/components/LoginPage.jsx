@@ -2,18 +2,14 @@
 /* eslint-disable functional/no-conditional-statements */
 
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { Form, Button } from 'react-bootstrap';
 import { useRef, useEffect, useState } from 'react';
 
+import { loginSchema } from '../schemas';
+
 const LoginPage = () => {
   const { t } = useTranslation();
-
-  const loginSchema = yup.object().shape({
-    username: yup.string().min(5).max(50).required(),
-    password: yup.string().min(5).max(50).required(),
-  });
 
   const [authFailed, setAuthFailed] = useState(false);
 
@@ -54,7 +50,7 @@ const LoginPage = () => {
                 placeholder={t('username')}
                 name="username"
                 id="username"
-                isInvalid={authFailed}
+                isInvalid={authFailed || formik.errors.username}
                 required
                 ref={inputRef}
               />
@@ -68,7 +64,7 @@ const LoginPage = () => {
                 placeholder={t('password')}
                 name="password"
                 id="password"
-                isInvalid={authFailed}
+                isInvalid={authFailed || formik.errors.password}
                 required
               />
               <Form.Label htmlFor="password">{t('password')}</Form.Label>
