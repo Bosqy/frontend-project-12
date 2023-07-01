@@ -4,5 +4,9 @@ export default {
     notFound: 'Страница не найдена',
     redirectTextBegin: 'Но вы можете перейти  ',
     redirectTextEnd: 'на главную страницу',
+    loginHeader: 'Войти',
+    username: 'Ваш ник',
+    password: 'Пароль',
+    authFailed: 'Неверные имя пользователя или пароль',
   },
 };
