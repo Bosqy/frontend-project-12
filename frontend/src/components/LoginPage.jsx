@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { loginSchema } from '../schemas';
 import loginImg from '../assets/login.jpg';
 import routes from '../routes';
+import { useAuth } from '../hooks';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ const LoginPage = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -29,8 +31,9 @@ const LoginPage = () => {
       setAuthFailed(false);
 
       try {
-        const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('user', JSON.stringify(res.data));
+        const { data } = await axios.post(routes.loginPath(), values);
+        localStorage.setItem('user', JSON.stringify(data));
+        auth.logIn();
         const { from } = location.state || { from: { pathname: '/' } };
         navigate(from);
       } catch (err) {
