@@ -8,8 +8,10 @@ import {
   Navigate,
 } from 'react-router-dom';
 
-import NotFoundPage from './NotFoundPage';
+import ChatPage from './ChatPage';
 import LoginPage from './LoginPage';
+import NotFoundPage from './NotFoundPage';
+
 import { useAuth } from '../hooks';
 
 const PrivateRoute = ({ children }) => {
@@ -28,7 +30,7 @@ const App = () => (
         index
         element={(
           <PrivateRoute>
-            <h1>Index Page </h1>
+            <ChatPage />
           </PrivateRoute>
         )}
       />
