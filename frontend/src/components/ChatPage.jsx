@@ -1,10 +1,12 @@
 /* eslint-disable functional/no-expression-statements */
 
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { useAuth } from '../hooks';
 import fetchData from '../slices/fetchData';
+import Channels from './Channels';
+import Messages from './Messages';
 
 const ChatPage = () => {
   const auth = useAuth();
@@ -16,18 +18,13 @@ const ChatPage = () => {
     dispatch(fetchData(authHeader));
   }, []);
 
-  const channels = JSON.stringify(useSelector((state) => state.channels), null, 2);
-  const messages = JSON.stringify(useSelector((state) => state.messages), null, 2);
-
   return (
-    <>
-      <pre>
-        {channels}
-      </pre>
-      <pre>
-        {messages}
-      </pre>
-    </>
+    <div className="container h-100 my-4 overflow-hidden rounded shadow">
+      <div className="row h-100 bg-white flex-md-row">
+        <Channels />
+        <Messages />
+      </div>
+    </div>
   );
 };
 
