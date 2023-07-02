@@ -11,5 +11,11 @@ export default {
     noAccountQM: 'Нет аккаунта? ',
     registration: 'Регистрация',
     channels: 'Каналы',
+    messagesCounter: {
+      messages_zero: 'Нет сообщений',
+      messages_one: '{{count}} сообщение',
+      messages_few: '{{count}} сообщения',
+      messages_many: '{{count}} сообщений',
+    },
   },
 };

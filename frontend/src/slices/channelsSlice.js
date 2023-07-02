@@ -8,6 +8,7 @@ import fetchData from './fetchData';
 const initialState = {
   channels: [],
   currentChannelId: 1,
+  currentChannelName: 'general',
 };
 
 const channelsSlice = createSlice({
