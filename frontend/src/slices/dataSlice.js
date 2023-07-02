@@ -1,3 +1,6 @@
+/* eslint-disable functional/no-expression-statements */
+/* eslint-disable no-param-reassign */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -5,8 +8,8 @@ import routes from '../routes';
 
 export const fetchData = createAsyncThunk(
   'data/fetchData',
-  async (token) => {
-    const { data } = await axios.get(routes.dataPath(), { headers: { Authorization: `Bearer ${token}` } });
+  async (authHeader) => {
+    const { data } = await axios.get(routes.dataPath(), { headers: authHeader });
 
     return data;
   },
