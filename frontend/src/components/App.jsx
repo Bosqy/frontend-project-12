@@ -1,7 +1,4 @@
 /* eslint-disable functional/no-expression-statements */
-/* eslint-disable max-len */
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable no-unused-vars */
 
 import {
   BrowserRouter,
@@ -10,32 +7,14 @@ import {
   useLocation,
   Navigate,
 } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 import NotFoundPage from './NotFoundPage';
 import LoginPage from './LoginPage';
 import { useAuth } from '../hooks';
-import routes from '../routes';
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
   const auth = useAuth();
-  // const [authorized, setAuthorized] = useState(false);
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     try {
-  //       const { data } = await axios.get(routes.dataPath(), { headers: auth.getAuthHeader() });
-  //       setAuthorized(true);
-  //     } catch (err) {
-  //       if (err.isAxiosError && err.response.status === 401) {
-  //         setAuthorized(false);
-  //         return;
-  //       }
-  //       throw err;
-  //     }
-  //   };
-  //   checkAuth();
-  // }, []);
 
   return (
     auth.loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
