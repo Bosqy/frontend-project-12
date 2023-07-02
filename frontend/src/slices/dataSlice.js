@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import routes from '../routes';
 
-const fetchData = createAsyncThunk(
+export const fetchData = createAsyncThunk(
   'data/fetchData',
   async (token) => {
     const { data } = await axios.get(routes.dataPath(), { headers: { Authorization: `Bearer ${token}` } });
@@ -18,11 +18,12 @@ const initialState = {
 };
 
 const dataSlice = createSlice({
-  name: 'messages',
+  name: 'data',
   initialState,
   reducers: {},
   extraReducers: (builder) => builder
     .addCase(fetchData.fulfilled, (state, action) => {
+      state.channels = action.payload.channels;
       state.messages = action.payload.messages;
     }),
 });
