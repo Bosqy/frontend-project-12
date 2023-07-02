@@ -16,7 +16,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     dispatch(fetchData(authHeader));
-  }, []);
+  }, [authHeader, dispatch]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
