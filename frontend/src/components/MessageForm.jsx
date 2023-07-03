@@ -4,24 +4,41 @@ import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
 import SendMessage from './SendMessage';
 
+import { useSocket } from '../hooks';
+import { addMessage } from '../slices/messagesSlice';
+
 const MessageForm = () => {
   const { t } = useTranslation();
-
-  const formik = useFormik({
-    initialValues: { messageBody: '' },
-    onSubmit: ({ messageBody }) => {
-      console.log(messageBody);
-      formik.resetForm();
-    },
-  });
 
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
+  const { socket, newMessage } = useSocket();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.on('newMessage', (message) => {
+      dispatch(addMessage(message));
+    });
+    return () => {
+      socket.off('newMessage');
+    };
+  });
+
+  const formik = useFormik({
+    initialValues: { messageBody: '' },
+    onSubmit: async ({ messageBody }) => {
+      await newMessage({ message: messageBody, channelId: 1, user: 'admin' });
+      formik.resetForm();
+    },
+  });
 
   return (
     <div className="mt-auto px-5 py-3">

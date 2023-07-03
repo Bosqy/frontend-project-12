@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 import { SocketContext } from '.';
 
 const SocketProvider = ({ children }) => {
-  const socket = io('ws://localhost:5001');
+  const socket = io();
   const newMessage = useCallback(async (data) => {
     await socket.emit('newMessage', data);
   }, [socket]);
