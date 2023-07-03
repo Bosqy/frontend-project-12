@@ -22,12 +22,20 @@ const AuthProvider = ({ children }) => {
     return {};
   };
 
+  const getUsername = () => {
+    if (loggedIn) {
+      return user.username;
+    }
+    return null;
+  };
+
   return (
     <AuthContext.Provider value={{
       loggedIn,
       logIn,
       logOut,
       getAuthHeader,
+      getUsername,
     }}
     >
       {children}
