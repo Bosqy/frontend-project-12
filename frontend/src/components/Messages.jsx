@@ -7,15 +7,18 @@ import MessageForm from './MessageForm';
 
 const Messages = () => {
   const { t } = useTranslation();
-  const { messages } = useSelector((state) => state.messages);
-  const { currentChannelName } = useSelector((state) => state.channels);
+  const { channels, currentChannelId } = useSelector((state) => state.channels);
+  const currentChannel = channels.find(({ id }) => id === currentChannelId);
+  const messages = useSelector((state) => state.messages)
+    .messages
+    .filter(({ channelId }) => channelId === currentChannelId);
 
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b>{`# ${currentChannelName}`}</b>
+            <b>{`# ${currentChannel.name}`}</b>
           </p>
           <span className="text-muted">
             {t('messagesCounter.messages', { count: messages.length })}

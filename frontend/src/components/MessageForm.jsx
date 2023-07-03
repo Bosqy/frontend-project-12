@@ -67,6 +67,7 @@ const MessageForm = () => {
           <Button
             type="submit"
             variant="Dark"
+            className="border-0"
             disabled={!formik.isValid || initialDisabled}
           >
             <SendMessage />

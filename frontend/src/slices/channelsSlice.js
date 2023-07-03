@@ -8,13 +8,16 @@ import fetchData from './fetchData';
 const initialState = {
   channels: [],
   currentChannelId: 1,
-  currentChannelName: 'general',
 };
 
 const channelsSlice = createSlice({
   name: 'channels',
   initialState,
-  reducers: {},
+  reducers: {
+    setChannel: (state, { payload }) => {
+      state.currentChannelId = payload;
+    },
+  },
   extraReducers: (builder) => builder
     .addCase(fetchData.fulfilled, (state, action) => {
       state.channels = action.payload.channels;
@@ -22,4 +25,5 @@ const channelsSlice = createSlice({
     }),
 });
 
+export const { setChannel } = channelsSlice.actions;
 export default channelsSlice.reducer;
