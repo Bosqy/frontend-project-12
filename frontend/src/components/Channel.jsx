@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
+import { open } from '../slices/modalsSlice';
 import { setChannel } from '../slices/channelsSlice';
 
 const Channel = ({ isActive, channel }) => {
@@ -9,7 +10,7 @@ const Channel = ({ isActive, channel }) => {
   const dispatch = useDispatch();
   const handleSetChannel = (id) => dispatch(setChannel(id));
   const handleRenameChannel = () => {};
-  const handleRemoveChannel = () => {};
+  const showModal = (modal) => () => dispatch(open(modal));
 
   const notRemovable = (
     <Button
@@ -40,11 +41,11 @@ const Channel = ({ isActive, channel }) => {
         <span className="visually-hidden">{t('modalManageChannel')}</span>
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={handleRenameChannel}>
-          {t('modalRenameChannel')}
+        <Dropdown.Item onClick={showModal('removing')}>
+          {t('modalRemove')}
         </Dropdown.Item>
-        <Dropdown.Item onClick={handleRemoveChannel}>
-          {t('modalRemoveChannel')}
+        <Dropdown.Item onClick={handleRenameChannel}>
+          {t('modalRename')}
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
