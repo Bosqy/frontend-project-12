@@ -23,5 +23,8 @@ export default {
     cancel: 'Отмена',
     modalAddChannel: 'Добавить канал',
     modalChannelName: 'Имя канала',
+    requiredField: ('Обязательное поле'),
+    requiredLength: ('От 3 до 20 символов'),
+    requiredUnique: ('Должно быть уникальным'),
   },
 };

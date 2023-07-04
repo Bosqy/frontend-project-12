@@ -8,11 +8,15 @@ import { useEffect, useRef } from 'react';
 
 import { close } from '../slices/modalsSlice';
 import { useSocket } from '../hooks';
+import { addChannelSchema } from '../schemas';
 
 const Add = () => {
   const { t } = useTranslation();
   const { newChannel } = useSocket();
   const opened = useSelector((state) => state.modals.opened);
+  const channels = useSelector((state) => state.channels)
+    .channels
+    .map(({ name }) => name);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(close());
 
@@ -27,6 +31,7 @@ const Add = () => {
       await newChannel({ name: channelName, removable: true });
       dispatch(close());
     },
+    validationSchema: addChannelSchema(channels, t),
   });
 
   return (
@@ -43,6 +48,7 @@ const Add = () => {
               onChange={formik.handleChange}
               value={formik.values.channelName}
               disabled={formik.isSubmitting}
+              isInvalid={formik.errors.channelName}
               ref={inputRef}
             />
             <Form.Label visuallyHidden>{t('modalChannelName')}</Form.Label>
