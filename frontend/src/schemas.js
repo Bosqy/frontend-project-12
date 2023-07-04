@@ -14,6 +14,6 @@ export const addChannelSchema = (channels, t) => yup.object().shape({
     .string()
     .required(t('requiredField'))
     .min(3, t('requiredLength'))
-    .max(20)
+    .max(20, t('requiredLength'))
     .notOneOf(channels, t('requiredUnique')),
 });

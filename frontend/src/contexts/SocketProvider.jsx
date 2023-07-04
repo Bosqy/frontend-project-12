@@ -20,7 +20,7 @@ const SocketProvider = ({ children }) => {
     await socket.emit('newChannel', channel, ({ data }) => {
       dispatch(addChannel(data));
     });
-  }, [socket]);
+  }, [socket, dispatch]);
 
   return (
     <SocketContext.Provider value={{ socket, newMessage, newChannel }}>
