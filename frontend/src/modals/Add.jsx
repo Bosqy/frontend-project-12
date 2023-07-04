@@ -7,9 +7,11 @@ import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 
 import { close } from '../slices/modalsSlice';
+import { useSocket } from '../hooks';
 
 const Add = () => {
   const { t } = useTranslation();
+  const { newChannel } = useSocket();
   const opened = useSelector((state) => state.modals.opened);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(close());
@@ -20,9 +22,9 @@ const Add = () => {
   }, []);
 
   const formik = useFormik({
-    initialValues: { newChannel: '' },
-    onSubmit: ({ newChannel }) => {
-      console.log(newChannel);
+    initialValues: { channelName: '' },
+    onSubmit: async ({ channelName }) => {
+      await newChannel({ name: channelName, removable: true });
       dispatch(close());
     },
   });
@@ -36,15 +38,15 @@ const Add = () => {
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
             <Form.Control
-              name="newChannel"
+              name="channelName"
               className="mb-2"
               onChange={formik.handleChange}
-              value={formik.values.newChannel}
+              value={formik.values.channelName}
               disabled={formik.isSubmitting}
               ref={inputRef}
             />
             <Form.Label visuallyHidden>{t('modalChannelName')}</Form.Label>
-            <Form.Control.Feedback type="invalid">{formik.errors.newChannel}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
             <Modal.Footer className="border-0">
               <Button variant="secondary" onClick={handleClose}>{t('cancel')}</Button>
               <Button type="submit" variant="primary" disabled={formik.isSubmitting}>{t('send')}</Button>
