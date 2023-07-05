@@ -9,7 +9,7 @@ import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { loginSchema } from '../schemas';
+import { signupSchema } from '../schemas';
 import signupImg from '../assets/signup.jpg';
 import routes from '../routes';
 import { useAuth } from '../hooks';
@@ -28,6 +28,7 @@ const SignupPage = () => {
       confirmPassword: '',
     },
     onSubmit: () => {},
+    validationSchema: signupSchema(t),
   });
 
   const inputRef = useRef();
@@ -60,6 +61,7 @@ const SignupPage = () => {
                       ref={inputRef}
                     />
                     <Form.Label htmlFor="username">{t('username')}</Form.Label>
+                    <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
@@ -74,6 +76,7 @@ const SignupPage = () => {
                       isInvalid={formik.errors.password}
                     />
                     <Form.Label htmlFor="password">{t('password')}</Form.Label>
+                    <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="form-floating mb-4">
                     <Form.Control
@@ -88,6 +91,7 @@ const SignupPage = () => {
                       isInvalid={formik.errors.confirmPassword}
                     />
                     <Form.Label htmlFor="confirmPassword">{t('confirmPassword')}</Form.Label>
+                    <Form.Control.Feedback type="invalid">{formik.errors.confirmPassword}</Form.Control.Feedback>
                   </Form.Group>
                   <Button
                     type="submit"

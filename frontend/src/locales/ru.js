@@ -35,8 +35,10 @@ export default {
     modalConfirmRemoving: 'Уверены?',
     requiredField: ('Обязательное поле'),
     requiredLength: ('От 3 до 20 символов'),
+    requiredLengthPassword: ('Не менее 6 символов'),
     requiredUnique: ('Должно быть уникальным'),
     registrationHeader: ('Регистрация'),
     register: ('Зарегистрироваться'),
+    mustMatch: ('Пароли должны совпадать'),
   },
 };
