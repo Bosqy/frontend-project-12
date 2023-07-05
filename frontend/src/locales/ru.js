@@ -25,6 +25,7 @@ export default {
     modalChannelName: 'Имя канала',
     modalManageChannel: 'Управление каналом',
     modalRename: 'Переименовать',
+    modalRenameChannel: 'Переименовать канал',
     modalRemove: 'Удалить',
     modalRemoveChannel: 'Удалить канал',
     modalConfirmRemoving: 'Уверены?',

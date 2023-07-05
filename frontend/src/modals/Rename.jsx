@@ -1,4 +1,5 @@
 /* eslint-disable functional/no-expression-statements */
+/* eslint-disable no-unused-vars */
 
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -7,28 +8,24 @@ import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 
 import { close } from '../slices/modalsSlice';
-import { useSocket } from '../hooks';
 import { addChannelSchema } from '../schemas';
 
-const Add = () => {
+const Rename = () => {
   const { t } = useTranslation();
-  const { newChannel } = useSocket();
-  const opened = useSelector((state) => state.modals.opened);
-  const channels = useSelector((state) => state.channels)
-    .channels
-    .map(({ name }) => name);
+  const { opened, channelId } = useSelector((state) => state.modals);
+  const { channels } = useSelector((state) => state.channels);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(close());
-
+  const renamingChannel = channels.find(({ id }) => id === channelId).name;
+  console.log(renamingChannel);
   const inputRef = useRef();
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current.select();
   }, []);
 
   const formik = useFormik({
-    initialValues: { channelName: '' },
-    onSubmit: async ({ channelName }) => {
-      await newChannel({ name: channelName, removable: true });
+    initialValues: { channelName: renamingChannel },
+    onSubmit: ({ channelName }) => {
       handleClose();
     },
     validationSchema: addChannelSchema(channels, t),
@@ -37,7 +34,7 @@ const Add = () => {
   return (
     <Modal show={opened} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{t('modalAddChannel')}</Modal.Title>
+        <Modal.Title>{t('modalRenameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -66,4 +63,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default Rename;

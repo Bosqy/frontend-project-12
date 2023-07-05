@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { SocketContext } from '.';
-import { addChannel } from '../slices/channelsSlice';
+import { addChannel, deleteChannel } from '../slices/channelsSlice';
 
 const SocketProvider = ({ children }) => {
   const socket = io();
@@ -22,8 +22,20 @@ const SocketProvider = ({ children }) => {
     });
   }, [socket, dispatch]);
 
+  const removeChannel = useCallback(async (id) => {
+    await socket.emit('removeChannel', id, () => {
+      dispatch(deleteChannel(id));
+    });
+  }, [socket, dispatch]);
+
   return (
-    <SocketContext.Provider value={{ socket, newMessage, newChannel }}>
+    <SocketContext.Provider value={{
+      socket,
+      newMessage,
+      newChannel,
+      removeChannel,
+    }}
+    >
       {children}
     </SocketContext.Provider>
   );

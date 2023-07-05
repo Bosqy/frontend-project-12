@@ -5,12 +5,20 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { close } from '../slices/modalsSlice';
+import { useSocket } from '../hooks';
 
 const Remove = () => {
   const { t } = useTranslation();
-  const opened = useSelector((state) => state.modals.opened);
+  const { opened, channelId } = useSelector((state) => state.modals);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(close());
+
+  const { removeChannel } = useSocket();
+
+  const handleRemoving = async () => {
+    await removeChannel(channelId);
+    handleClose();
+  };
 
   return (
     <Modal show={opened} onHide={handleClose}>
@@ -21,7 +29,7 @@ const Remove = () => {
         <p className="lead">{t('modalConfirmRemoving')}</p>
         <div className="d-flex justify-content-end">
           <Button variant="secondary" className="me-2" onClick={handleClose}>{t('cancel')}</Button>
-          <Button variant="danger">{t('modalRemove')}</Button>
+          <Button variant="danger" onClick={handleRemoving}>{t('modalRemove')}</Button>
         </div>
       </Modal.Body>
 
