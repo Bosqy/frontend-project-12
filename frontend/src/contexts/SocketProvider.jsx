@@ -3,30 +3,23 @@
 
 import { io } from 'socket.io-client';
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { SocketContext } from '.';
-import { addChannel, deleteChannel } from '../slices/channelsSlice';
 
 const SocketProvider = ({ children }) => {
   const socket = io();
-  const dispatch = useDispatch();
 
   const newMessage = useCallback(async (message) => {
     await socket.emit('newMessage', message);
   }, [socket]);
 
   const newChannel = useCallback(async (channel) => {
-    await socket.emit('newChannel', channel, ({ data }) => {
-      dispatch(addChannel(data));
-    });
-  }, [socket, dispatch]);
+    await socket.emit('newChannel', channel);
+  }, [socket]);
 
   const removeChannel = useCallback(async (id) => {
-    await socket.emit('removeChannel', id, () => {
-      dispatch(deleteChannel(id));
-    });
-  }, [socket, dispatch]);
+    await socket.emit('removeChannel', id);
+  }, [socket]);
 
   return (
     <SocketContext.Provider value={{

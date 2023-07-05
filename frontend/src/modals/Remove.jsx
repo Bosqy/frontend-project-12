@@ -16,7 +16,7 @@ const Remove = () => {
   const { removeChannel } = useSocket();
 
   const handleRemoving = async () => {
-    await removeChannel(channelId);
+    await removeChannel({ id: channelId });
     handleClose();
   };
 
