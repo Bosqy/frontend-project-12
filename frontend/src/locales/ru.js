@@ -1,10 +1,12 @@
 export default {
   translation: {
     language: 'Русский',
+    mainHeader: 'Hexlet Chat',
     notFound: 'Страница не найдена',
     redirectTextBegin: 'Но вы можете перейти ',
     redirectTextEnd: 'на главную страницу',
     loginHeader: 'Войти',
+    logout: 'Выйти',
     username: 'Ваш ник',
     password: 'Пароль',
     authFailed: 'Неверные имя пользователя или пароль',
