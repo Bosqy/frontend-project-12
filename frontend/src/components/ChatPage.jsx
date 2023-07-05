@@ -1,12 +1,13 @@
 /* eslint-disable functional/no-expression-statements */
+/* eslint-disable functional/no-conditional-statements */
 
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useAuth, useSocket } from '../hooks';
 import fetchData from '../slices/fetchData';
 import { addMessage } from '../slices/messagesSlice';
-import { addChannel, removeChannel } from '../slices/channelsSlice';
+import { addChannel, removeChannel, setChannel } from '../slices/channelsSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 
@@ -18,9 +19,11 @@ const ChatPage = () => {
 
   const { socket } = useSocket();
 
+  const { currentChannelId } = useSelector((state) => state.channels);
+
   useEffect(() => {
     dispatch(fetchData(authHeader));
-  });
+  }, [socket, dispatch]);
 
   useEffect(() => {
     socket.on('newMessage', (message) => {
@@ -42,7 +45,9 @@ const ChatPage = () => {
 
   useEffect(() => {
     socket.on('removeChannel', ({ id }) => {
-      console.log(id);
+      if (id === currentChannelId) {
+        dispatch(setChannel(1));
+      }
       dispatch(removeChannel(id));
     });
     return () => {
