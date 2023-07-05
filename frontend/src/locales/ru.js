@@ -40,5 +40,6 @@ export default {
     registrationHeader: ('Регистрация'),
     register: ('Зарегистрироваться'),
     mustMatch: ('Пароли должны совпадать'),
+    userExists: ('Такой пользователь уже существует'),
   },
 };

@@ -40,7 +40,6 @@ const LoginPage = () => {
         formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
-          formik.setSubmitting(false);
           return;
         }
         throw err;

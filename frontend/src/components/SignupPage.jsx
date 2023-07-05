@@ -4,7 +4,7 @@
 
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -16,6 +16,7 @@ import { useAuth } from '../hooks';
 
 const SignupPage = () => {
   const { t } = useTranslation();
+  const [signupFailed, setSignupFailed] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,7 +28,24 @@ const SignupPage = () => {
       password: '',
       confirmPassword: '',
     },
-    onSubmit: () => {},
+    onSubmit: async ({ username, password }) => {
+      setSignupFailed(false);
+
+      try {
+        const { data } = await axios.post(routes.signupPath(), { username, password });
+        localStorage.setItem('user', JSON.stringify(data));
+        auth.logIn();
+        const { from } = location.state || { from: { pathname: '/' } };
+        navigate(from);
+      } catch (err) {
+        formik.setSubmitting(false);
+        if (err.isAxiosError && err.response.status === 409) {
+          setSignupFailed(true);
+          return;
+        }
+        throw err;
+      }
+    },
     validationSchema: signupSchema(t),
   });
 
@@ -35,6 +53,11 @@ const SignupPage = () => {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+  useEffect(() => {
+    if (signupFailed) {
+      inputRef.current.focus();
+    }
+  }, [signupFailed]);
 
   return (
     <div className="container-fluid h-100">
@@ -57,7 +80,7 @@ const SignupPage = () => {
                       placeholder={t('username')}
                       onChange={formik.handleChange}
                       value={formik.values.username}
-                      isInvalid={formik.errors.username}
+                      isInvalid={signupFailed || formik.errors.username}
                       ref={inputRef}
                     />
                     <Form.Label htmlFor="username">{t('username')}</Form.Label>
@@ -73,7 +96,7 @@ const SignupPage = () => {
                       id="password"
                       onChange={formik.handleChange}
                       value={formik.values.password}
-                      isInvalid={formik.errors.password}
+                      isInvalid={signupFailed || formik.errors.password}
                     />
                     <Form.Label htmlFor="password">{t('password')}</Form.Label>
                     <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
@@ -88,10 +111,11 @@ const SignupPage = () => {
                       id="confirmPassword"
                       onChange={formik.handleChange}
                       value={formik.values.confirmPassword}
-                      isInvalid={formik.errors.confirmPassword}
+                      isInvalid={signupFailed || formik.errors.confirmPassword}
                     />
                     <Form.Label htmlFor="confirmPassword">{t('confirmPassword')}</Form.Label>
                     <Form.Control.Feedback type="invalid">{formik.errors.confirmPassword}</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">{signupFailed && t('userExists')}</Form.Control.Feedback>
                   </Form.Group>
                   <Button
                     type="submit"
