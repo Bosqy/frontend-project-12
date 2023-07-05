@@ -41,23 +41,25 @@ const Add = () => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group>
-            <Form.Control
-              name="channelName"
-              className="mb-2"
-              onChange={formik.handleChange}
-              value={formik.values.channelName}
-              disabled={formik.isSubmitting}
-              isInvalid={formik.errors.channelName}
-              ref={inputRef}
-            />
-            <Form.Label visuallyHidden>{t('modalChannelName')}</Form.Label>
-            <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
-            <div className="d-flex justify-content-end">
-              <Button variant="secondary" className="me-2" onClick={handleClose}>{t('cancel')}</Button>
-              <Button type="submit" variant="primary" disabled={formik.isSubmitting}>{t('send')}</Button>
-            </div>
-          </Form.Group>
+          <fieldset disabled={formik.isSubmitting}>
+            <Form.Group>
+              <Form.Control
+                name="channelName"
+                className="mb-2"
+                onChange={formik.handleChange}
+                value={formik.values.channelName}
+                disabled={formik.isSubmitting}
+                isInvalid={formik.errors.channelName}
+                ref={inputRef}
+              />
+              <Form.Label visuallyHidden>{t('modalChannelName')}</Form.Label>
+              <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
+              <div className="d-flex justify-content-end">
+                <Button variant="secondary" className="me-2" onClick={handleClose}>{t('cancel')}</Button>
+                <Button type="submit" variant="primary" disabled={formik.isSubmitting}>{t('send')}</Button>
+              </div>
+            </Form.Group>
+          </fieldset>
         </Form>
 
       </Modal.Body>

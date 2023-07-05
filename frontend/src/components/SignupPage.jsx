@@ -1,22 +1,21 @@
 /* eslint-disable functional/no-expression-statements */
 /* eslint-disable functional/no-conditional-statements */
+/* eslint-disable no-unused-vars */
 
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { loginSchema } from '../schemas';
-import loginImg from '../assets/login.jpg';
+import signupImg from '../assets/signup.jpg';
 import routes from '../routes';
 import { useAuth } from '../hooks';
 
-const LoginPage = () => {
+const SignupPage = () => {
   const { t } = useTranslation();
-
-  const [authFailed, setAuthFailed] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,27 +25,9 @@ const LoginPage = () => {
     initialValues: {
       username: '',
       password: '',
+      confirmPassword: '',
     },
-    onSubmit: async (values) => {
-      setAuthFailed(false);
-
-      try {
-        const { data } = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('user', JSON.stringify(data));
-        auth.logIn();
-        const { from } = location.state || { from: { pathname: '/' } };
-        navigate(from);
-      } catch (err) {
-        formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
-          setAuthFailed(true);
-          formik.setSubmitting(false);
-          return;
-        }
-        throw err;
-      }
-    },
-    validationSchema: loginSchema,
+    onSubmit: () => {},
   });
 
   const inputRef = useRef();
@@ -54,23 +35,17 @@ const LoginPage = () => {
     inputRef.current.focus();
   }, []);
 
-  useEffect(() => {
-    if (authFailed) {
-      inputRef.current.focus();
-    }
-  }, [authFailed]);
-
   return (
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
         <div className="col-12 col-md-8 col-xxl-6">
           <div className="card shadow-sm">
-            <div className="card-body row p-5">
-              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img src={loginImg} className="rounded-circle" alt={t('loginHeader')} />
+            <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+              <div>
+                <img src={signupImg} className="rounded-circle" alt={t('registrationHeader')} />
               </div>
-              <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
-                <h1 className="text-center mb-4">{t('loginHeader')}</h1>
+              <Form className="w-50" onSubmit={formik.handleSubmit}>
+                <h1 className="text-center mb-4">{t('registrationHeader')}</h1>
                 <fieldset disabled={formik.isSubmitting}>
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
@@ -78,44 +53,51 @@ const LoginPage = () => {
                       autoComplete="username"
                       required
                       id="username"
-                      placeholder={t('yourNick')}
+                      placeholder={t('username')}
                       onChange={formik.handleChange}
                       value={formik.values.username}
-                      isInvalid={authFailed || formik.errors.username}
+                      isInvalid={formik.errors.username}
                       ref={inputRef}
                     />
-                    <Form.Label htmlFor="username">{t('yourNick')}</Form.Label>
+                    <Form.Label htmlFor="username">{t('username')}</Form.Label>
                   </Form.Group>
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
                       name="password"
-                      autoComplete="current-password"
+                      autoComplete="new-password"
                       required
                       placeholder={t('password')}
                       type="password"
                       id="password"
                       onChange={formik.handleChange}
                       value={formik.values.password}
-                      isInvalid={authFailed || formik.errors.password}
+                      isInvalid={formik.errors.password}
                     />
                     <Form.Label htmlFor="password">{t('password')}</Form.Label>
-                    <Form.Control.Feedback type="invalid">{authFailed && t('authFailed')}</Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group className="form-floating mb-4">
+                    <Form.Control
+                      name="confirmPassword"
+                      autoComplete="new-password"
+                      required
+                      placeholder={t('confirmPassword')}
+                      type="password"
+                      id="confirmPassword"
+                      onChange={formik.handleChange}
+                      value={formik.values.confirmPassword}
+                      isInvalid={formik.errors.confirmPassword}
+                    />
+                    <Form.Label htmlFor="confirmPassword">{t('confirmPassword')}</Form.Label>
                   </Form.Group>
                   <Button
                     type="submit"
                     variant="outline-primary"
-                    className="w-100 mb-3"
+                    className="w-100"
                   >
-                    {t('loginHeader')}
+                    {t('register')}
                   </Button>
                 </fieldset>
               </Form>
-            </div>
-            <div className="card-footer p-4">
-              <div className="text-center">
-                <span>{t('noAccountQM')}</span>
-                <a href="/signup">{t('registration')}</a>
-              </div>
             </div>
           </div>
         </div>
@@ -124,4 +106,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;

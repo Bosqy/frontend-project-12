@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import ChatPage from './ChatPage';
 import LoginPage from './LoginPage';
 import NotFoundPage from './NotFoundPage';
+import SignupPage from './SignupPage';
 
 import { useAuth } from '../hooks';
 
@@ -55,6 +56,7 @@ const App = () => {
             )}
           />
           <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignupPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
