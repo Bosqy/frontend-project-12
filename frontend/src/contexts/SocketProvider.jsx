@@ -21,12 +21,17 @@ const SocketProvider = ({ children }) => {
     await socket.emit('removeChannel', id);
   }, [socket]);
 
+  const renameChannel = useCallback(async (channel) => {
+    await socket.emit('renameChannel', channel);
+  }, [socket]);
+
   return (
     <SocketContext.Provider value={{
       socket,
       newMessage,
       newChannel,
       removeChannel,
+      renameChannel,
     }}
     >
       {children}

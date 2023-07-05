@@ -8,9 +8,11 @@ import { useEffect, useRef } from 'react';
 
 import { close } from '../slices/modalsSlice';
 import { addChannelSchema } from '../schemas';
+import { useSocket } from '../hooks';
 
 const Rename = () => {
   const { t } = useTranslation();
+  const { renameChannel } = useSocket();
   const { opened, channelId } = useSelector((state) => state.modals);
   const { channels } = useSelector((state) => state.channels);
   const dispatch = useDispatch();
@@ -23,7 +25,8 @@ const Rename = () => {
 
   const formik = useFormik({
     initialValues: { channelName: renamingChannel },
-    onSubmit: () => {
+    onSubmit: async ({ channelName }) => {
+      await renameChannel({ id: channelId, name: channelName });
       handleClose();
     },
     validationSchema: addChannelSchema(channels, t),
