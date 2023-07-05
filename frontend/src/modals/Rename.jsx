@@ -1,5 +1,4 @@
 /* eslint-disable functional/no-expression-statements */
-/* eslint-disable no-unused-vars */
 
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +16,6 @@ const Rename = () => {
   const dispatch = useDispatch();
   const handleClose = () => dispatch(close());
   const renamingChannel = channels.find(({ id }) => id === channelId).name;
-  console.log(renamingChannel);
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.select();
@@ -25,7 +23,7 @@ const Rename = () => {
 
   const formik = useFormik({
     initialValues: { channelName: renamingChannel },
-    onSubmit: ({ channelName }) => {
+    onSubmit: () => {
       handleClose();
     },
     validationSchema: addChannelSchema(channels, t),
