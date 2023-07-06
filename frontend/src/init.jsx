@@ -3,6 +3,7 @@
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { Provider as StoreProvider } from 'react-redux';
+import { Provider, ErrorBoundary } from '@rollbar/react';
 
 import App from './components/App';
 import resources from './locales';
@@ -21,18 +22,27 @@ const init = async () => {
       fallbackLng: 'ru',
     });
 
+  const rollbarConfig = {
+    accessToken: 'f95a57b6cf1b4b0eada61f48c076723d',
+    environment: 'testenv',
+  };
+
   return (
-    <StoreProvider store={store}>
-      <SocketProvider>
-        <AuthProvider>
-          <I18nextProvider i18n={i18n}>
-            <FilterProvider>
-              <App />
-            </FilterProvider>
-          </I18nextProvider>
-        </AuthProvider>
-      </SocketProvider>
-    </StoreProvider>
+    <Provider config={rollbarConfig}>
+      <ErrorBoundary>
+        <StoreProvider store={store}>
+          <SocketProvider>
+            <AuthProvider>
+              <I18nextProvider i18n={i18n}>
+                <FilterProvider>
+                  <App />
+                </FilterProvider>
+              </I18nextProvider>
+            </AuthProvider>
+          </SocketProvider>
+        </StoreProvider>
+      </ErrorBoundary>
+    </Provider>
   );
 };
 
