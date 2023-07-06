@@ -9,6 +9,7 @@ import resources from './locales';
 import AuthProvider from './contexts/AuthProvider';
 import store from './slices';
 import SocketProvider from './contexts/SocketProvider';
+import FilterProvider from './contexts/FilterProvider';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -25,7 +26,9 @@ const init = async () => {
       <SocketProvider>
         <AuthProvider>
           <I18nextProvider i18n={i18n}>
-            <App />
+            <FilterProvider>
+              <App />
+            </FilterProvider>
           </I18nextProvider>
         </AuthProvider>
       </SocketProvider>
