@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import { open } from '../slices/modalsSlice';
 import { setChannel } from '../slices/channelsSlice';
+import { useFilter } from '../hooks';
 
 const Channel = ({ isActive, channel }) => {
   const { t } = useTranslation();
+  const filterProfanity = useFilter();
   const dispatch = useDispatch();
   const handleSetChannel = (id) => dispatch(setChannel(id));
   const showModal = (modal) => () => dispatch(open(modal));
@@ -30,7 +32,7 @@ const Channel = ({ isActive, channel }) => {
         onClick={() => handleSetChannel(channel.id)}
       >
         <span className="me-1">#</span>
-        {channel.name}
+        {filterProfanity(channel.name)}
       </Button>
       <Dropdown.Toggle
         split
