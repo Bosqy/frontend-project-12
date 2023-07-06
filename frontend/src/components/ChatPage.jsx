@@ -3,7 +3,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { useAuth, useSocket } from '../hooks';
 import fetchData from '../slices/fetchData';
@@ -25,8 +25,6 @@ const ChatPage = () => {
 
   const { socket } = useSocket();
 
-  const { currentChannelId } = useSelector((state) => state.channels);
-
   useEffect(() => {
     dispatch(fetchData(authHeader));
   }, []);
@@ -43,7 +41,6 @@ const ChatPage = () => {
   useEffect(() => {
     socket.on('newChannel', (channel) => {
       dispatch(addChannel(channel));
-      console.log(currentChannelId);
     });
     return () => {
       socket.off('newChannel');
@@ -52,7 +49,6 @@ const ChatPage = () => {
 
   useEffect(() => {
     socket.on('removeChannel', ({ id }) => {
-      console.log(currentChannelId);
       dispatch(removeChannel(id));
     });
     return () => {
