@@ -7,6 +7,7 @@ import { useRef, useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { loginSchema } from '../schemas';
 import loginImg from '../assets/login.jpg';
@@ -38,9 +39,12 @@ const LoginPage = () => {
         navigate(from);
       } catch (err) {
         formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
-          setAuthFailed(true);
-          return;
+        if (err.isAxiosError) {
+          if (err.response.status === 401) {
+            setAuthFailed(true);
+            return;
+          }
+          toast.error('errorNetwork');
         }
         throw err;
       }

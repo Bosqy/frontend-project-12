@@ -11,7 +11,6 @@ import { addMessage } from '../slices/messagesSlice';
 import {
   addChannel,
   removeChannel,
-  setChannel,
   renameChannel,
 } from '../slices/channelsSlice';
 
@@ -44,6 +43,7 @@ const ChatPage = () => {
   useEffect(() => {
     socket.on('newChannel', (channel) => {
       dispatch(addChannel(channel));
+      console.log(currentChannelId);
     });
     return () => {
       socket.off('newChannel');
@@ -52,9 +52,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     socket.on('removeChannel', ({ id }) => {
-      if (id === currentChannelId) {
-        dispatch(setChannel(1));
-      }
+      console.log(currentChannelId);
       dispatch(removeChannel(id));
     });
     return () => {

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 import { close } from '../slices/modalsSlice';
 import { addChannelSchema } from '../schemas';
@@ -26,10 +27,16 @@ const Rename = () => {
   const formik = useFormik({
     initialValues: { channelName: renamingChannel },
     onSubmit: async ({ channelName }) => {
-      await renameChannel({ id: channelId, name: channelName });
-      handleClose();
+      try {
+        await renameChannel({ id: channelId, name: channelName });
+        toast.success(t('noteRenameChannel'));
+        handleClose();
+      } catch (err) {
+        toast.error(t('errorNetwork'));
+        throw (err);
+      }
     },
-    validationSchema: addChannelSchema(channels, t),
+    validationSchema: addChannelSchema(channels.map(({ name }) => name), t),
   });
 
   return (

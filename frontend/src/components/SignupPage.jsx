@@ -8,6 +8,7 @@ import { useRef, useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { signupSchema } from '../schemas';
 import signupImg from '../assets/signup.jpg';
@@ -39,9 +40,12 @@ const SignupPage = () => {
         navigate(from);
       } catch (err) {
         formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 409) {
-          setSignupFailed(true);
-          return;
+        if (err.isAxiosError) {
+          if (err.response.status === 409) {
+            setSignupFailed(true);
+            return;
+          }
+          toast('errorNetwork');
         }
         throw err;
       }
