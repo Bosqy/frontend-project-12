@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-expression-statements */
-
 import { useCallback } from 'react';
 import filter from 'leo-profanity';
 

@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable functional/no-expression-statements */
 
 import { io } from 'socket.io-client';
 import { useCallback } from 'react';
