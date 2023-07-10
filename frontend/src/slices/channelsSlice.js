@@ -7,6 +7,8 @@ import fetchData from './fetchData';
 const initialState = {
   channels: [],
   currentChannelId: 1,
+  loading: false,
+  error: false,
 };
 
 const channelsSlice = createSlice({
@@ -33,11 +35,23 @@ const channelsSlice = createSlice({
         return channel;
       });
     },
+    setError: (state, { payload }) => {
+      state.error = payload;
+    },
   },
   extraReducers: (builder) => builder
     .addCase(fetchData.fulfilled, (state, action) => {
       state.channels = action.payload.channels;
       state.currentChannelId = action.payload.currentChannelId;
+      state.loading = false;
+      state.error = false;
+    })
+    .addCase(fetchData.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(fetchData.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
     }),
 });
 
@@ -46,5 +60,6 @@ export const {
   addChannel,
   removeChannel,
   renameChannel,
+  setError,
 } = channelsSlice.actions;
 export default channelsSlice.reducer;

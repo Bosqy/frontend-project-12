@@ -34,7 +34,7 @@ const Add = () => {
         toast.success(t('noteAddChannel'));
         handleClose();
       } catch (err) {
-        toast.error(t('networkError'));
+        toast.error(t('errorNetwork'));
         throw err;
       }
     },

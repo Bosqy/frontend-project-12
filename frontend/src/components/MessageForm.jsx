@@ -30,7 +30,6 @@ const MessageForm = () => {
         formik.resetForm();
       } catch (err) {
         toast(t('errorNetwork'));
-        throw err;
       }
     },
     validationSchema: messageSchema,
