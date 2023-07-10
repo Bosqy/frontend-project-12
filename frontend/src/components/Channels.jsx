@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useRef } from 'react';
 
 import AddChannelSVG from './AddChannel';
 import renderModal from '../modals';
@@ -13,6 +14,11 @@ const Channels = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const showModal = (modal) => () => dispatch(open(modal));
+
+  const lastRef = useRef();
+  useEffect(() => {
+    lastRef.current?.lastElementChild?.scrollIntoView();
+  }, [currentChannelId]);
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -27,7 +33,11 @@ const Channels = () => {
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-      <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+      <ul
+        id="channels-box"
+        className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
+        ref={lastRef}
+      >
         {channels.map((channel) => (
           <Channel key={channel.id} channel={channel} isActive={currentChannelId === channel.id} />
         ))}
