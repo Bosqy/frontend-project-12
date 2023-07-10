@@ -2,6 +2,8 @@
 
 [![Actions Status](https://github.com/Bosqy/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/Bosqy/frontend-project-12/actions)
 
+[![linter-check](https://github.com/Bosqy/frontend-project-12/actions/workflows/linter-check.yml/badge.svg)](https://github.com/Bosqy/frontend-project-12/actions/workflows/linter-check.yml)
+
 ### Описание проекта
 
 Очень упрощенный аналог Slack чата
