@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
 import { close } from '../slices/modalsSlice';
+import { setChannel } from '../slices/channelsSlice';
 import { useSocket } from '../hooks';
 import { addChannelSchema } from '../schemas';
 
@@ -28,7 +29,8 @@ const Add = () => {
     initialValues: { channelName: '' },
     onSubmit: async ({ channelName }) => {
       try {
-        await newChannel({ name: channelName, removable: true });
+        const id = await newChannel({ name: channelName, removable: true });
+        dispatch(setChannel(id));
         toast.success(t('noteAddChannel'));
         handleClose();
       } catch (err) {

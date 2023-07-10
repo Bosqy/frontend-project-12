@@ -11,7 +11,8 @@ const SocketProvider = ({ children }) => {
   }, [socket]);
 
   const newChannel = useCallback(async (channel) => {
-    await socket.emit('newChannel', channel);
+    const { data } = await socket.emitWithAck('newChannel', channel);
+    return data.id;
   }, [socket]);
 
   const removeChannel = useCallback(async (id) => {
