@@ -5,10 +5,9 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import SendMessage from './SendMessage';
-
 import { useSocket, useAuth } from '../hooks';
 import { messageSchema } from '../schemas.js';
+import { SendMessageIcon } from './icons';
 
 const MessageForm = () => {
   const { t } = useTranslation();
@@ -63,7 +62,7 @@ const MessageForm = () => {
             className="border-0"
             disabled={!formik.isValid || initialDisabled}
           >
-            <SendMessage />
+            <SendMessageIcon />
             <span className="visually-hidden">
               {t('send')}
             </span>

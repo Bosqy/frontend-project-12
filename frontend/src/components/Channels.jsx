@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
 
-import AddChannelSVG from './AddChannel';
+import { AddChannelIcon } from './icons';
 import renderModal from '../modals';
 import { open } from '../slices/modalsSlice';
 import Channel from './Channel';
@@ -29,7 +29,7 @@ const Channels = () => {
           className="p-0 text-primary btn-group-vertical"
           onClick={showModal({ modalType: 'adding' })}
         >
-          <AddChannelSVG />
+          <AddChannelIcon />
           <span className="visually-hidden">+</span>
         </Button>
       </div>
