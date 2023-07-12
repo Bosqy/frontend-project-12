@@ -83,7 +83,7 @@ const ChatPage = () => {
 
   if (error) {
     auth.logOut();
-    navigate('/login');
+    navigate(routes.login());
   }
 
   if (loading) {
