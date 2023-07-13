@@ -19,6 +19,8 @@ import {
 import Channels from './Channels';
 import Messages from './Messages';
 
+import routes from '../routes';
+
 const ChatPage = () => {
   const auth = useAuth();
   const dispatch = useDispatch();

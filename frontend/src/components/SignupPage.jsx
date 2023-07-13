@@ -30,8 +30,7 @@ const SignupPage = () => {
 
       try {
         const { data } = await axios.post(routes.signupPath(), { username, password });
-        localStorage.setItem('user', JSON.stringify(data));
-        auth.logIn();
+        auth.logIn(data);
         const { from } = location.state || { from: { pathname: routes.home() } };
         navigate(from);
       } catch (err) {

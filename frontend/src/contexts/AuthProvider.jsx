@@ -8,7 +8,10 @@ const AuthProvider = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [loggedIn, setLoggedIn] = useState(user && user.token);
 
-  const logIn = useCallback(() => setLoggedIn(true), []);
+  const logIn = useCallback((data) => {
+    setLoggedIn(true);
+    localStorage.setItem('user', JSON.stringify(data));
+  }, []);
   const logOut = useCallback(() => {
     setLoggedIn(false);
     localStorage.removeItem('user');
