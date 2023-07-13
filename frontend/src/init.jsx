@@ -9,6 +9,8 @@ import AuthProvider from './contexts/AuthProvider';
 import store from './slices';
 import SocketProvider from './contexts/SocketProvider';
 import FilterProvider from './contexts/FilterProvider';
+import { socket } from './socketApi';
+import { addMessage } from './slices/messagesSlice';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -24,6 +26,11 @@ const init = async () => {
     accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
     environment: 'production',
   };
+
+  const { dispatch } = store;
+  socket.on('newMessage', (message) => {
+    dispatch(addMessage(message));
+  });
 
   return (
     <Provider config={rollbarConfig}>

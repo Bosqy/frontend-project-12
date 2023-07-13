@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 
 import { useAuth, useSocket } from '../hooks';
 import fetchData from '../slices/fetchData';
-import { addMessage } from '../slices/messagesSlice';
 import {
   addChannel,
   removeChannel,
@@ -34,15 +33,6 @@ const ChatPage = () => {
 
   useEffect(() => {
     dispatch(fetchData(authHeader));
-  }, []);
-
-  useEffect(() => {
-    socket.on('newMessage', (message) => {
-      dispatch(addMessage(message));
-    });
-    return () => {
-      socket.off('newMessage');
-    };
   }, []);
 
   useEffect(() => {
