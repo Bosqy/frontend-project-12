@@ -2,7 +2,6 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useRef, useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -25,12 +24,11 @@ const LoginPage = () => {
       username: '',
       password: '',
     },
-    onSubmit: async (values) => {
+    onSubmit: async ({ username, password }) => {
       setAuthFailed(false);
 
       try {
-        const { data } = await axios.post(routes.loginPath(), values);
-        auth.logIn(data);
+        await auth.logIn({ username, password });
         const { from } = location.state || { from: { pathname: routes.home() } };
         navigate(from);
       } catch (err) {
