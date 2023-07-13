@@ -11,6 +11,7 @@ import SocketProvider from './contexts/SocketProvider';
 import FilterProvider from './contexts/FilterProvider';
 import { socket } from './socketApi';
 import { addMessage } from './slices/messagesSlice';
+import { addChannel } from './slices/channelsSlice';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -30,6 +31,9 @@ const init = async () => {
   const { dispatch } = store;
   socket.on('newMessage', (message) => {
     dispatch(addMessage(message));
+  });
+  socket.on('newChannel', (channel) => {
+    dispatch(addChannel(channel));
   });
 
   return (
