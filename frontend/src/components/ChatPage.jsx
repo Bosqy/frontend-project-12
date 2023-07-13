@@ -27,7 +27,8 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const authHeader = auth.getAuthHeader();
+  const authToken = auth.getAuthToken();
+  const authHeader = authToken ? { Authorization: `Bearer ${authToken}` } : {};
 
   const { socket } = useSocket();
 

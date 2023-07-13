@@ -17,11 +17,11 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
   }, []);
 
-  const getAuthHeader = useCallback(() => {
+  const getAuthToken = useCallback(() => {
     if (loggedIn) {
-      return { Authorization: `Bearer ${user.token}` };
+      return user.token;
     }
-    return {};
+    return null;
   }, [loggedIn]);
 
   const getUsername = useCallback(() => {
@@ -35,9 +35,9 @@ const AuthProvider = ({ children }) => {
     loggedIn,
     logIn,
     logOut,
-    getAuthHeader,
+    getAuthToken,
     getUsername,
-  }), [loggedIn, logIn, logOut, getAuthHeader, getUsername]);
+  }), [loggedIn, logIn, logOut, getAuthToken, getUsername]);
 
   return (
     <AuthContext.Provider value={value}>
