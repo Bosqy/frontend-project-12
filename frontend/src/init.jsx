@@ -11,7 +11,12 @@ import SocketProvider from './contexts/SocketProvider';
 import FilterProvider from './contexts/FilterProvider';
 import { socket } from './socketApi';
 import { addMessage } from './slices/messagesSlice';
-import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice';
+import {
+  addChannel,
+  removeChannel,
+  renameChannel,
+  setError,
+} from './slices/channelsSlice';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -40,6 +45,12 @@ const init = async () => {
   });
   socket.on('renameChannel', (channel) => {
     dispatch(renameChannel(channel));
+  });
+  socket.on('connect_error', () => {
+    dispatch(setError(true));
+  });
+  socket.on('connect', () => {
+    dispatch(setError(false));
   });
 
   return (
