@@ -14,3 +14,7 @@ export const newChannel = async (channel) => {
 export const removeChannel = async (channel) => {
   await socket.emit('removeChannel', channel);
 };
+
+export const renameChannel = async (channel) => {
+  await socket.emit('renameChannel', channel);
+};
