@@ -10,3 +10,7 @@ export const newChannel = async (channel) => {
   const { data } = await socket.emitWithAck('newChannel', channel);
   return data.id;
 };
+
+export const removeChannel = async (channel) => {
+  await socket.emit('removeChannel', channel);
+};

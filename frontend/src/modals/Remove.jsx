@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { close } from '../slices/modalsSlice';
-import { useSocket } from '../hooks';
+import { removeChannel } from '../socketApi';
 
 const Remove = () => {
   const { t } = useTranslation();
@@ -13,8 +13,6 @@ const Remove = () => {
   const dispatch = useDispatch();
   const handleClose = () => dispatch(close());
   const [disabled, setDisabled] = useState(false);
-
-  const { removeChannel } = useSocket();
 
   const handleRemoving = async () => {
     setDisabled(true);

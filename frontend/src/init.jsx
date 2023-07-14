@@ -11,7 +11,7 @@ import SocketProvider from './contexts/SocketProvider';
 import FilterProvider from './contexts/FilterProvider';
 import { socket } from './socketApi';
 import { addMessage } from './slices/messagesSlice';
-import { addChannel } from './slices/channelsSlice';
+import { addChannel, removeChannel } from './slices/channelsSlice';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -34,6 +34,9 @@ const init = async () => {
   });
   socket.on('newChannel', (channel) => {
     dispatch(addChannel(channel));
+  });
+  socket.on('removeChannel', ({ id }) => {
+    dispatch(removeChannel(id));
   });
 
   return (

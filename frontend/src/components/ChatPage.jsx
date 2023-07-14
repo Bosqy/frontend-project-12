@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { useAuth, useSocket } from '../hooks';
 import fetchData from '../slices/fetchData';
 import {
-  removeChannel,
   renameChannel,
   setError,
 } from '../slices/channelsSlice';
@@ -32,15 +31,6 @@ const ChatPage = () => {
 
   useEffect(() => {
     dispatch(fetchData(authHeader));
-  }, []);
-
-  useEffect(() => {
-    socket.on('removeChannel', ({ id }) => {
-      dispatch(removeChannel(id));
-    });
-    return () => {
-      socket.off('removeChannel');
-    };
   }, []);
 
   useEffect(() => {

@@ -6,19 +6,14 @@ import { SocketContext } from '.';
 const SocketProvider = ({ children }) => {
   const socket = io();
 
-  const removeChannel = useCallback(async (id) => {
-    await socket.emit('removeChannel', id);
-  }, [socket]);
-
   const renameChannel = useCallback(async (channel) => {
     await socket.emit('renameChannel', channel);
   }, [socket]);
 
   const value = useMemo(() => ({
     socket,
-    removeChannel,
     renameChannel,
-  }), [socket, removeChannel, renameChannel]);
+  }), [socket, renameChannel]);
 
   return (
     <SocketContext.Provider value={value}>
