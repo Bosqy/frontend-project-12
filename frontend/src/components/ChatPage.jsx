@@ -31,7 +31,9 @@ const ChatPage = () => {
   }
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <h2>{t('loading')}</h2>
+    );
   }
 
   return (
