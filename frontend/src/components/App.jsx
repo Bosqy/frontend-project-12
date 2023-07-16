@@ -23,7 +23,7 @@ const PrivateRoute = ({ children }) => {
   const auth = useAuth();
 
   return (
-    auth.loggedIn ? children : <Navigate to={routes.login()} state={{ from: location }} />
+    auth.user ? children : <Navigate to={routes.login()} state={{ from: location }} />
   );
 };
 
@@ -31,7 +31,7 @@ const Logout = () => {
   const auth = useAuth();
   const { t } = useTranslation();
   return (
-    auth.loggedIn ? <Button onClick={auth.logOut}>{t('logout')}</Button> : null
+    auth.user ? <Button onClick={auth.logOut}>{t('logout')}</Button> : null
   );
 };
 
