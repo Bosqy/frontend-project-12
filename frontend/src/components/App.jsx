@@ -57,7 +57,7 @@ const App = () => {
           />
           <Route path={routes.login()} element={<LoginPage />} />
           <Route path={routes.signup()} element={<SignupPage />} />
-          <Route path={routes.notFound()} element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
       <ToastContainer />
