@@ -44,6 +44,7 @@ const LoginPage = () => {
       }
     },
     validationSchema: loginSchema,
+    validateOnChange: false,
   });
 
   const inputRef = useRef();

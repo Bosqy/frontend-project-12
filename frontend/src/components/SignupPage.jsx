@@ -44,6 +44,7 @@ const SignupPage = () => {
       }
     },
     validationSchema: signupSchema(t),
+    validateOnChange: false,
   });
 
   const inputRef = useRef();
