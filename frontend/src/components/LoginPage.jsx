@@ -38,7 +38,7 @@ const LoginPage = () => {
             setAuthFailed(true);
             return;
           }
-          toast.error('errorNetwork');
+          toast.error(t('errorNetwork'));
         }
         throw err;
       }
