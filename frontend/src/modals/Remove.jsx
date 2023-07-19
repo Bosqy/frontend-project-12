@@ -22,7 +22,7 @@ const Remove = () => {
       toast.success(t('noteRemoveChannel'));
       handleClose();
     } catch (err) {
-      toast.error(t('errorNetwork'));
+      toast.error(t('errorDataExchange'));
       throw err;
     }
   };

@@ -29,7 +29,7 @@ const Rename = () => {
         toast.success(t('noteRenameChannel'));
         handleClose();
       } catch (err) {
-        toast.error(t('errorNetwork'));
+        toast.error(t('errorDataExchange'));
         throw (err);
       }
     },
